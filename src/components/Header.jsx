@@ -27,6 +27,7 @@ export default function Header() {
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-brand-slate">
           <a href="#solution" className="hover:text-brand-blue transition-colors">솔루션</a>
           <a href="#process" className="hover:text-brand-blue transition-colors">프로세스</a>
+          <a href="#diagnosis" className="hover:text-brand-blue transition-colors">AI 진단</a>
           <a href="#beta-form" className="hover:text-brand-blue transition-colors">베타 신청</a>
         </nav>
         <button

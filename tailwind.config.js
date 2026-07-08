@@ -11,6 +11,18 @@ export default {
           ink: '#0A1628',
           slate: '#5B6B82',
         },
+        noir: {
+          bg: '#0A0C11',
+          grid: '#1B1F29',
+          card: '#12151C',
+          line: 'rgba(255,255,255,.08)',
+          gold: '#D9B25C',
+          golddim: '#8A7440',
+          ink: '#F3F4F7',
+          muted: '#9299AB',
+          muteddim: '#5B6272',
+          danger: '#E08585',
+        },
       },
       fontFamily: {
         sans: ['"Pretendard"', '"Noto Sans KR"', 'sans-serif'],
