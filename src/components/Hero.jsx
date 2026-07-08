@@ -9,17 +9,15 @@ export default function Hero() {
       <div className="pointer-events-none absolute top-40 -left-40 w-[400px] h-[400px] rounded-full bg-brand-mint opacity-10 blur-3xl" />
 
       <div className="relative mx-auto max-w-6xl px-6 grid md:grid-cols-2 gap-14 items-center">
-        <div>
+        <div className="text-center">
           <span className="inline-flex items-center gap-2 rounded-full border border-brand-mint/30 bg-brand-mint/10 px-4 py-1.5 text-xs font-semibold text-brand-blue">
             대전창조경제혁신센터 Startup:D 선정
           </span>
 
           <h1 className="mt-6 text-4xl md:text-5xl font-extrabold leading-tight tracking-tight text-brand-ink">
             복잡한 온라인 창업,<br />
-            <span className="bg-brand-gradient bg-clip-text text-transparent">
-              수학적 알고리즘으로 5일
-            </span>{' '}
-            만에 끝내세요.
+            수학적 알고리즘으로<br />
+            <span className="bg-brand-gradient bg-clip-text text-transparent">5일</span> 만에 끝내세요.
           </h1>
 
           <p className="mt-6 text-lg text-brand-slate leading-relaxed">
@@ -27,7 +25,7 @@ export default function Hero() {
             4주 걸리던 셋업을 5일로 단축합니다.
           </p>
 
-          <div className="mt-10 flex flex-wrap items-center gap-4">
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-4">
             <button
               onClick={scrollToForm}
               className="rounded-full bg-brand-gradient text-white font-semibold px-8 py-4 shadow-card-lg hover:opacity-90 transition-opacity"
@@ -42,7 +40,7 @@ export default function Hero() {
             </a>
           </div>
 
-          <div className="mt-12 grid grid-cols-3 gap-6 max-w-md">
+          <div className="mt-12 grid grid-cols-3 gap-6 max-w-md mx-auto">
             <div>
               <p className="text-2xl font-extrabold text-brand-ink">4주 → 5일</p>
               <p className="text-xs text-brand-slate mt-1">셋업 기간 단축</p>
