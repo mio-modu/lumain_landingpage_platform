@@ -7,20 +7,21 @@ const plans = [
   },
   {
     name: '단건 결제',
-    price: '5만원 ~ 9.9만원',
+    price: '5만원 ~ 20만원',
     featured: false,
-    features: ['AI 상세페이지 생성기 — 건당 5만원', '창업 셋업 패키지 — 9.9만원'],
+    features: ['AI 상세페이지 생성기 — 건당 5만원', '창업 셋업 패키지 — 20만원 (사업자등록·소싱·오픈까지 전 과정 동행)'],
   },
   {
     name: '구독',
-    price: '월 9,900원 ~ 49,900원',
+    price: '월 9,900원~ (잠정)',
     featured: true,
     badge: '구독형',
     features: [
-      'Basic (9,900원) — 마진 대시보드 + 트렌드 리포트',
-      'Standard (29,900원) — Basic 전체 + 상세페이지 월 1개',
-      'Pro (49,900원) — Standard 전체 + 상세페이지 월 3개 + 1:1 상담',
+      'Basic — 마진 대시보드 + 트렌드 리포트',
+      'Standard — Basic 전체 + 상세페이지 월 1개',
+      'Pro — Standard 전체 + 상세페이지 월 3개 + 1:1 상담',
     ],
+    note: '* 구독 등급별 정확한 가격은 베타 운영 결과를 반영해 확정할 예정입니다.',
   },
 ]
 
@@ -45,7 +46,7 @@ export default function PricingPanel() {
         필요한 만큼만 확장하세요
       </h1>
       <p className="text-sm text-noir-muted leading-[1.7] mb-6 break-keep">
-        아래 요금제는 정식 서비스 오픈 시 적용될 예정입니다. 지금은 진단·따라가기 기능을 무료로 체험해보실 수 있어요.
+        아래 요금제는 정식 서비스 오픈 시 적용될 예정이며, 베타 운영 결과에 따라 조정될 수 있는 잠정안입니다. 지금은 진단·따라가기 기능을 무료로 체험해보실 수 있어요.
       </p>
 
       <div className="flex flex-col gap-2.5 mb-7">
@@ -73,6 +74,7 @@ export default function PricingPanel() {
                 </li>
               ))}
             </ul>
+            {p.note && <p className="text-[11px] text-noir-muteddim mt-3 leading-relaxed break-keep">{p.note}</p>}
           </div>
         ))}
       </div>

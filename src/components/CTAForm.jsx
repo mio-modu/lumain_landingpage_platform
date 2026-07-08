@@ -56,14 +56,17 @@ export default function CTAForm() {
         <div className="text-center">
           <p className="text-sm font-semibold text-brand-mint uppercase tracking-wider">Beta Program</p>
           <h2 className="mt-3 text-3xl md:text-4xl font-extrabold text-white tracking-tight break-keep">
-            베타 테스터 선착순 모집
+            베타 테스터 선착순 3명 모집
           </h2>
           <p className="mt-4 text-white/60 break-keep">
-            지금 신청하면 정식 출시 전 Lumain을 가장 먼저 경험할 수 있습니다.
+            지금 신청하면 정식 출시 전 Lumain을 가장 먼저 경험할 수 있습니다. 소수로 진행하는 만큼 한 분 한 분 꼼꼼하게 챙겨드려요.
           </p>
           <div className="mt-5 inline-flex items-center gap-2 rounded-2xl border border-brand-mint/30 bg-brand-mint/10 px-4 py-2 text-xs font-semibold text-brand-mint break-keep max-w-full">
-            🎁 베타 테스터로 선정되시면 상세페이지 1개를 무료로 제작해드립니다
+            🎁 상세페이지 1건 무료 제작 (수정 1~2회 포함)
           </div>
+          <p className="mt-3 text-[11px] text-white/40 break-keep">
+            * 베타 참여 조건: 진행 후기 · 케이스 스터디 활용에 동의해주실 분
+          </p>
         </div>
 
         <form onSubmit={handleSubmit} className="mt-12 rounded-3xl bg-white p-8 md:p-10 shadow-card-lg">
