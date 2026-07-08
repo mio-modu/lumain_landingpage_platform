@@ -23,7 +23,7 @@ export default function Hero() {
           </h1>
 
           <p className="mt-6 text-lg text-brand-slate leading-relaxed">
-            수학교육과 출신이 설계한 AI 엔진으로<br className="hidden md:block" />
+            수학 분야 전공자가 설계한 AI 엔진으로<br className="hidden md:block" />
             4주 걸리던 셋업을 3일로 단축합니다.
           </p>
 
