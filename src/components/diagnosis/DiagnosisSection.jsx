@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import DiagnosisQuiz from './DiagnosisQuiz.jsx'
 import TrackerPanel from './TrackerPanel.jsx'
+import PricingPanel from './PricingPanel.jsx'
 
 export default function DiagnosisSection() {
   const [tab, setTab] = useState('diagnosis')
@@ -33,13 +34,19 @@ export default function DiagnosisSection() {
           >
             창업 따라가기
           </button>
+          <button
+            onClick={() => setTab('pricing')}
+            className={`flex-1 text-sm font-bold py-2.5 px-3 rounded transition-colors ${
+              tab === 'pricing' ? 'bg-noir-ink text-noir-bg' : 'text-noir-muted hover:text-noir-ink'
+            }`}
+          >
+            요금제 안내
+          </button>
         </div>
 
-        {tab === 'diagnosis' ? (
-          <DiagnosisQuiz onCategoryChange={setActiveCategory} />
-        ) : (
-          <TrackerPanel activeCategory={activeCategory} />
-        )}
+        {tab === 'diagnosis' && <DiagnosisQuiz onCategoryChange={setActiveCategory} />}
+        {tab === 'tracker' && <TrackerPanel activeCategory={activeCategory} />}
+        {tab === 'pricing' && <PricingPanel />}
 
         <footer className="text-center text-[11px] font-medium text-noir-muteddim mt-5 tracking-wide">
           lumain — AI로 세상을 밝히고, 새로운 길을 열어가다

@@ -1,8 +1,18 @@
 import { useState } from 'react'
 
-const categories = ['식품/농산물', '패션/의류', '뷰티/화장품', '리빙/생활용품', '디지털/전자기기', '기타']
+const categories = ['식품/농산물', '패션/의류', '뷰티/화장', '디지털/전자기기', '기타']
 
 const initialForm = { name: '', email: '', phone: '', category: '' }
+
+const GOOGLE_FORM_ACTION =
+  'https://docs.google.com/forms/d/e/1FAIpQLSedWhvLONyiYbx_QEZ0L1hjs-ckeadR2PAYYKOzZA4TIFqLyQ/formResponse'
+
+const GOOGLE_FORM_ENTRIES = {
+  name: 'entry.426293246',
+  email: 'entry.71903606',
+  phone: 'entry.481489020',
+  category: 'entry.30560191',
+}
 
 export default function CTAForm() {
   const [form, setForm] = useState(initialForm)
@@ -13,9 +23,29 @@ export default function CTAForm() {
     setForm((prev) => ({ ...prev, [name]: value }))
   }
 
+  const submitToGoogleForm = (values) => {
+    const params = new URLSearchParams()
+    params.append(GOOGLE_FORM_ENTRIES.name, values.name)
+    params.append(GOOGLE_FORM_ENTRIES.email, values.email)
+    params.append(GOOGLE_FORM_ENTRIES.phone, values.phone)
+    if (values.category === '기타') {
+      params.append(GOOGLE_FORM_ENTRIES.category, '__other_option__')
+      params.append(`${GOOGLE_FORM_ENTRIES.category}.other_option_response`, '기타')
+    } else if (values.category) {
+      params.append(GOOGLE_FORM_ENTRIES.category, values.category)
+    }
+
+    return fetch(GOOGLE_FORM_ACTION, {
+      method: 'POST',
+      mode: 'no-cors',
+      body: params,
+    })
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault()
     console.log('Lumain 베타 신청:', form)
+    submitToGoogleForm(form).catch(() => {})
     setSubmitted(true)
     setForm(initialForm)
   }
@@ -31,6 +61,9 @@ export default function CTAForm() {
           <p className="mt-4 text-white/60">
             지금 신청하면 정식 출시 전 Lumain을 가장 먼저 경험할 수 있습니다.
           </p>
+          <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-brand-mint/30 bg-brand-mint/10 px-4 py-1.5 text-xs font-semibold text-brand-mint">
+            🎁 베타 테스터로 선정되시면 상세페이지 1개를 무료로 제작해드립니다
+          </div>
         </div>
 
         <form onSubmit={handleSubmit} className="mt-12 rounded-3xl bg-white p-8 md:p-10 shadow-card-lg">
