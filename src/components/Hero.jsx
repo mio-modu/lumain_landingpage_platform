@@ -17,14 +17,14 @@ export default function Hero() {
           <h1 className="mt-6 text-4xl md:text-5xl font-extrabold leading-tight tracking-tight text-brand-ink">
             복잡한 온라인 창업,<br />
             <span className="bg-brand-gradient bg-clip-text text-transparent">
-              수학적 알고리즘으로 3일
+              수학적 알고리즘으로 5일
             </span>{' '}
             만에 끝내세요.
           </h1>
 
           <p className="mt-6 text-lg text-brand-slate leading-relaxed">
             수학 분야 전공자가 설계한 AI 엔진으로<br className="hidden md:block" />
-            4주 걸리던 셋업을 3일로 단축합니다.
+            4주 걸리던 셋업을 5일로 단축합니다.
           </p>
 
           <div className="mt-10 flex flex-wrap items-center gap-4">
@@ -32,7 +32,7 @@ export default function Hero() {
               onClick={scrollToForm}
               className="rounded-full bg-brand-gradient text-white font-semibold px-8 py-4 shadow-card-lg hover:opacity-90 transition-opacity"
             >
-              3일 만에 창업하기
+              5일 만에 창업하기
             </button>
             <a
               href="#process"
@@ -44,11 +44,11 @@ export default function Hero() {
 
           <div className="mt-12 grid grid-cols-3 gap-6 max-w-md">
             <div>
-              <p className="text-2xl font-extrabold text-brand-ink">4주 → 3일</p>
+              <p className="text-2xl font-extrabold text-brand-ink">4주 → 5일</p>
               <p className="text-xs text-brand-slate mt-1">셋업 기간 단축</p>
             </div>
             <div>
-              <p className="text-2xl font-extrabold text-brand-ink">3단계</p>
+              <p className="text-2xl font-extrabold text-brand-ink">5단계</p>
               <p className="text-xs text-brand-slate mt-1">비즈니스 알고리즘</p>
             </div>
             <div>
