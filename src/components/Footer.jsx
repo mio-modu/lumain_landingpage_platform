@@ -1,0 +1,20 @@
+export default function Footer() {
+  const year = new Date().getFullYear()
+
+  return (
+    <footer className="py-12 bg-white border-t border-brand-ink/10">
+      <div className="mx-auto max-w-6xl px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+        <div className="flex items-center gap-2">
+          <span className="w-2 h-2 rounded-full bg-brand-gradient" />
+          <span className="font-extrabold text-brand-ink">Lumain</span>
+        </div>
+        <p className="text-xs text-brand-slate text-center md:text-left">
+          루메인(Lumain) · 대전창조경제혁신센터 Startup:D 참여기업
+          <br className="md:hidden" />
+          {' '}· 대표 박성은 · 대전광역시 유성구 상대로 16
+        </p>
+        <p className="text-xs text-brand-slate">© {year} Lumain. All rights reserved.</p>
+      </div>
+    </footer>
+  )
+}
