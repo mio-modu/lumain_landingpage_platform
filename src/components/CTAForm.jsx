@@ -55,13 +55,13 @@ export default function CTAForm() {
       <div className="mx-auto max-w-3xl px-6">
         <div className="text-center">
           <p className="text-sm font-semibold text-brand-mint uppercase tracking-wider">Beta Program</p>
-          <h2 className="mt-3 text-3xl md:text-4xl font-extrabold text-white tracking-tight">
+          <h2 className="mt-3 text-3xl md:text-4xl font-extrabold text-white tracking-tight break-keep">
             베타 테스터 선착순 모집
           </h2>
-          <p className="mt-4 text-white/60">
+          <p className="mt-4 text-white/60 break-keep">
             지금 신청하면 정식 출시 전 Lumain을 가장 먼저 경험할 수 있습니다.
           </p>
-          <div className="mt-5 inline-flex items-center gap-2 rounded-full border border-brand-mint/30 bg-brand-mint/10 px-4 py-1.5 text-xs font-semibold text-brand-mint">
+          <div className="mt-5 inline-flex items-center gap-2 rounded-2xl border border-brand-mint/30 bg-brand-mint/10 px-4 py-2 text-xs font-semibold text-brand-mint break-keep max-w-full">
             🎁 베타 테스터로 선정되시면 상세페이지 1개를 무료로 제작해드립니다
           </div>
         </div>

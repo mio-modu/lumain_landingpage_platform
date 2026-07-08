@@ -77,8 +77,8 @@ export default function TrackerPanel({ activeCategory }) {
         <span className="flex-1 h-px bg-noir-line" />
       </div>
 
-      <h1 className="font-black text-[23px] leading-[1.4] tracking-tight mb-3 text-noir-ink">당신의 창업 진행표</h1>
-      <p className="text-sm text-noir-muted leading-[1.7] mb-5">
+      <h1 className="font-black text-[23px] leading-[1.4] tracking-tight mb-3 text-noir-ink break-keep">당신의 창업 진행표</h1>
+      <p className="text-sm text-noir-muted leading-[1.7] mb-5 break-keep">
         단계를 체크할 때마다 다음 할 일을 알려드려요. 순서대로 해도 되고, 원하는 순서로 진행해도 괜찮아요.
       </p>
 
@@ -114,7 +114,7 @@ export default function TrackerPanel({ activeCategory }) {
           모든 단계를 완료했어요. 이제 실제 판매를 시작해보세요.
         </div>
       ) : (
-        <div className="border border-noir-golddim bg-noir-gold/[0.07] text-noir-ink rounded px-4 py-3.5 text-sm mb-6 leading-relaxed">
+        <div className="border border-noir-golddim bg-noir-gold/[0.07] text-noir-ink rounded px-4 py-3.5 text-sm mb-6 leading-relaxed break-keep">
           다음으로 할 일 · <b className="text-noir-gold">{stages[nextIdx].title}</b> — {stages[nextIdx].summary}
         </div>
       )}
@@ -146,10 +146,10 @@ export default function TrackerPanel({ activeCategory }) {
 
               <div className="cursor-pointer flex justify-between items-start gap-2.5 pt-0.5" onClick={() => setExpandedStage(isExpanded ? null : si)}>
                 <div>
-                  <div className={`font-bold text-sm leading-snug ${isDone ? 'text-noir-muted line-through decoration-noir-muteddim' : 'text-noir-ink'}`}>
+                  <div className={`font-bold text-sm leading-snug break-keep ${isDone ? 'text-noir-muted line-through decoration-noir-muteddim' : 'text-noir-ink'}`}>
                     {s.title}
                   </div>
-                  <div className="text-xs text-noir-muted mt-1 leading-snug">{s.summary}</div>
+                  <div className="text-xs text-noir-muted mt-1 leading-snug break-keep">{s.summary}</div>
                 </div>
                 <span
                   className={`text-noir-muteddim text-[11px] mt-1 shrink-0 transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`}
@@ -183,14 +183,14 @@ export default function TrackerPanel({ activeCategory }) {
                             </svg>
                           )}
                         </span>
-                        <span className={`text-xs leading-relaxed ${isChecked ? 'text-noir-muteddim line-through' : 'text-noir-muted'}`}>{d}</span>
+                        <span className={`text-xs leading-relaxed break-keep ${isChecked ? 'text-noir-muteddim line-through' : 'text-noir-muted'}`}>{d}</span>
                       </div>
                     )
                   })}
                   {(s.glossary || []).map((g) => (
                     <div
                       key={g.term}
-                      className="bg-noir-gold/[0.07] border border-noir-golddim rounded px-3.5 py-2.5 text-xs text-noir-muted leading-relaxed mt-2"
+                      className="bg-noir-gold/[0.07] border border-noir-golddim rounded px-3.5 py-2.5 text-xs text-noir-muted leading-relaxed mt-2 break-keep"
                     >
                       <b className="text-noir-gold font-bold">{g.term}</b> — {g.explain}
                     </div>
@@ -202,7 +202,7 @@ export default function TrackerPanel({ activeCategory }) {
         })}
       </div>
 
-      <p className="text-center text-[10.5px] text-noir-muteddim mt-6 leading-relaxed">
+      <p className="text-center text-[10.5px] text-noir-muteddim mt-6 leading-relaxed break-keep">
         {persistOk ? '체크 상태는 자동으로 저장됩니다' : '이 화면을 벗어나면 체크 상태가 초기화될 수 있어요 (저장 기능이 지원되지 않는 환경입니다)'}
       </p>
     </div>

@@ -76,12 +76,12 @@ export default function DiagnosisQuiz({ onCategoryChange }) {
 
       {screen === SCREENS.INTRO && (
         <div className="flex flex-col flex-1 animate-[fadeIn_.4s_ease]">
-          <h1 className="font-black text-[27px] leading-[1.4] tracking-tight mb-3 max-w-[430px] text-noir-ink">
+          <h1 className="font-black text-[27px] leading-[1.4] tracking-tight mb-3 max-w-[430px] text-noir-ink break-keep">
             5일 만에 시작하는
             <br />
             온라인 창업, 먼저 진단하세요
           </h1>
-          <p className="text-sm text-noir-muted leading-[1.7] mb-7 max-w-[430px]">
+          <p className="text-sm text-noir-muted leading-[1.7] mb-7 max-w-[430px] break-keep">
             5개 질문에 답하면 AI가 창업 유형, 예상 준비기간, 우선 실행 과제를 바로 정리해드립니다. 무료이며, 결과는 저장되지 않습니다.
           </p>
           <div className="mt-auto">
@@ -109,7 +109,7 @@ export default function DiagnosisQuiz({ onCategoryChange }) {
             </div>
           </div>
           <div className="text-xs font-bold text-noir-gold tracking-[.1em] mb-2.5">QUESTION</div>
-          <h1 className="font-black text-[21px] leading-[1.4] tracking-tight mb-1.5 text-noir-ink">{q.text}</h1>
+          <h1 className="font-black text-[21px] leading-[1.4] tracking-tight mb-1.5 text-noir-ink break-keep">{q.text}</h1>
           <div className="flex flex-col gap-2 mt-1.5">
             {q.options.map((opt) => (
               <button
@@ -119,8 +119,8 @@ export default function DiagnosisQuiz({ onCategoryChange }) {
                   answers[q.key] === opt ? 'border-noir-gold bg-noir-gold/[0.09]' : 'border-noir-line hover:border-noir-golddim hover:bg-noir-gold/5'
                 }`}
               >
-                {opt}
-                <span className="text-noir-muteddim opacity-0 group-hover:opacity-100 group-hover:text-noir-gold transition-opacity">→</span>
+                <span className="break-keep">{opt}</span>
+                <span className="text-noir-muteddim opacity-0 group-hover:opacity-100 group-hover:text-noir-gold transition-opacity shrink-0">→</span>
               </button>
             ))}
           </div>
@@ -165,8 +165,8 @@ function ResultBody({ r }) {
   return (
     <div>
       <div className="text-[11px] font-bold text-noir-gold tracking-[.16em] uppercase mb-2.5">진단 결과</div>
-      <h1 className="font-black text-2xl leading-[1.35] tracking-tight mb-3 text-noir-ink">{r.archetype}</h1>
-      <p className="text-[13.5px] text-noir-muted leading-[1.7] mb-6">{r.archetype_description}</p>
+      <h1 className="font-black text-2xl leading-[1.35] tracking-tight mb-3 text-noir-ink break-keep">{r.archetype}</h1>
+      <p className="text-[13.5px] text-noir-muted leading-[1.7] mb-6 break-keep">{r.archetype_description}</p>
 
       <div className="flex gap-px mb-6 border border-noir-line rounded overflow-hidden">
         <div className="flex-1 bg-white/[0.02] px-4 py-4 text-center">
@@ -186,8 +186,8 @@ function ResultBody({ r }) {
             key={label}
             className={`flex justify-between gap-3 px-3.5 py-2.5 text-xs text-noir-muted ${i > 0 ? 'border-t border-noir-line' : ''}`}
           >
-            <span>{label}</span>
-            <b className="text-noir-ink font-semibold">{amount}</b>
+            <span className="break-keep">{label}</span>
+            <b className="text-noir-ink font-semibold shrink-0">{amount}</b>
           </li>
         ))}
       </ul>
@@ -198,7 +198,7 @@ function ResultBody({ r }) {
       <SectionTitle>주의할 점</SectionTitle>
       <ul className="list-none m-0 mb-6 flex flex-col gap-2.5">
         {r.watch_outs.map((w) => (
-          <li key={w} className="text-[13.5px] text-noir-muted leading-relaxed pl-4 relative">
+          <li key={w} className="text-[13.5px] text-noir-muted leading-relaxed pl-4 relative break-keep">
             <span className="absolute left-0 top-0 text-noir-danger font-bold">!</span>
             {w}
           </li>

@@ -39,12 +39,12 @@ export default function PricingPanel() {
         <span className="flex-1 h-px bg-noir-line" />
       </div>
 
-      <h1 className="font-black text-[23px] leading-[1.4] tracking-tight mb-3 text-noir-ink">
+      <h1 className="font-black text-[23px] leading-[1.4] tracking-tight mb-3 text-noir-ink break-keep">
         무료로 시작해서,
         <br />
         필요한 만큼만 확장하세요
       </h1>
-      <p className="text-sm text-noir-muted leading-[1.7] mb-6">
+      <p className="text-sm text-noir-muted leading-[1.7] mb-6 break-keep">
         아래 요금제는 정식 서비스 오픈 시 적용될 예정입니다. 지금은 진단·따라가기 기능을 무료로 체험해보실 수 있어요.
       </p>
 
@@ -63,11 +63,11 @@ export default function PricingPanel() {
             )}
             <div className="flex justify-between items-baseline gap-3 flex-wrap mb-3">
               <div className="text-[13px] font-bold text-noir-muteddim tracking-wide uppercase">{p.name}</div>
-              <div className="text-[17px] font-bold text-noir-gold">{p.price}</div>
+              <div className="text-[17px] font-bold text-noir-gold break-keep">{p.price}</div>
             </div>
             <ul className="list-none m-0 p-0 flex flex-col gap-1.5">
               {p.features.map((f) => (
-                <li key={f} className="text-xs text-noir-muted leading-relaxed pl-4 relative">
+                <li key={f} className="text-xs text-noir-muted leading-relaxed pl-4 relative break-keep">
                   <span className="absolute left-0 top-0 text-noir-golddim">—</span>
                   {f}
                 </li>
@@ -82,7 +82,7 @@ export default function PricingPanel() {
       </div>
       <ul className="list-none m-0 flex flex-col gap-2.5">
         {policies.map((p) => (
-          <li key={p} className="text-xs text-noir-muted leading-[1.7] pl-4 relative">
+          <li key={p} className="text-xs text-noir-muted leading-[1.7] pl-4 relative break-keep">
             <span className="absolute left-0 top-0 text-noir-muteddim font-bold">·</span>
             {p}
           </li>

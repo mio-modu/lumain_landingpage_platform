@@ -21,8 +21,8 @@ export default function ActionAccordion({ actions }) {
                   {String(i + 1).padStart(2, '0')}
                 </span>
                 <div>
-                  <div className="font-bold text-[13.5px] text-noir-ink leading-snug">{act.title}</div>
-                  <div className="text-xs text-noir-muted mt-1 leading-snug">{act.summary}</div>
+                  <div className="font-bold text-[13.5px] text-noir-ink leading-snug break-keep">{act.title}</div>
+                  <div className="text-xs text-noir-muted mt-1 leading-snug break-keep">{act.summary}</div>
                 </div>
               </div>
               <span
@@ -36,7 +36,7 @@ export default function ActionAccordion({ actions }) {
               style={{ maxHeight: isOpen ? 600 : 0 }}
             >
               <div className="px-4 pb-4 pl-[42px]">
-                <ul className="list-none m-0 mb-2.5 pl-4 text-xs text-noir-muted leading-[1.75]">
+                <ul className="list-none m-0 mb-2.5 pl-4 text-xs text-noir-muted leading-[1.75] break-keep">
                   {act.detail.map((d) => (
                     <li key={d} className="mb-1 list-['—'] pl-1">
                       {d}
@@ -46,7 +46,7 @@ export default function ActionAccordion({ actions }) {
                 {(act.glossary || []).map((g) => (
                   <div
                     key={g.term}
-                    className="bg-noir-gold/[0.07] border border-noir-golddim rounded px-3.5 py-2.5 text-xs text-noir-muted leading-relaxed mt-2"
+                    className="bg-noir-gold/[0.07] border border-noir-golddim rounded px-3.5 py-2.5 text-xs text-noir-muted leading-relaxed mt-2 break-keep"
                   >
                     <b className="text-noir-gold font-bold">{g.term}</b> — {g.explain}
                   </div>

@@ -22,7 +22,7 @@ export default function PainPoints() {
       <div className="mx-auto max-w-6xl px-6">
         <div className="text-center max-w-2xl mx-auto">
           <p className="text-sm font-semibold text-brand-blue uppercase tracking-wider">Pain Points</p>
-          <h2 className="mt-3 text-3xl md:text-4xl font-extrabold text-brand-ink tracking-tight">
+          <h2 className="mt-3 text-3xl md:text-4xl font-extrabold text-brand-ink tracking-tight break-keep">
             창업의 첫 걸음이 가장 무겁습니다
           </h2>
         </div>
@@ -36,15 +36,15 @@ export default function PainPoints() {
               <div className="w-12 h-12 rounded-xl bg-brand-gradient/10 flex items-center justify-center text-2xl">
                 {p.icon}
               </div>
-              <h3 className="mt-5 text-lg font-bold text-brand-ink">{p.title}</h3>
-              <p className="mt-3 text-sm text-brand-slate leading-relaxed">{p.desc}</p>
+              <h3 className="mt-5 text-lg font-bold text-brand-ink break-keep">{p.title}</h3>
+              <p className="mt-3 text-sm text-brand-slate leading-relaxed break-keep">{p.desc}</p>
             </div>
           ))}
         </div>
 
         <div className="mt-16">
           <div className="rounded-3xl bg-white shadow-card-lg p-6 md:p-10">
-            <p className="text-center text-sm font-semibold text-brand-slate mb-6">
+            <p className="text-center text-sm font-semibold text-brand-slate mb-6 break-keep">
               Lumain의 기술적 깊이 — 알고리즘이 문제를 대체합니다
             </p>
             <img

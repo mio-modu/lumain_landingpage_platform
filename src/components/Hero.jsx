@@ -10,17 +10,13 @@ export default function Hero() {
 
       <div className="relative mx-auto max-w-6xl px-6 grid md:grid-cols-2 gap-14 items-center">
         <div className="text-center">
-          <span className="inline-flex items-center gap-2 rounded-full border border-brand-mint/30 bg-brand-mint/10 px-4 py-1.5 text-xs font-semibold text-brand-blue">
-            대전창조경제혁신센터 Startup:D 선정
-          </span>
-
-          <h1 className="mt-6 text-4xl md:text-5xl font-extrabold leading-tight tracking-tight text-brand-ink">
+          <h1 className="text-4xl md:text-5xl font-extrabold leading-tight tracking-tight text-brand-ink break-keep">
             복잡한 온라인 창업,<br />
             수학적 알고리즘으로<br />
             <span className="bg-brand-gradient bg-clip-text text-transparent">5일</span> 만에 끝내세요.
           </h1>
 
-          <p className="mt-6 text-lg text-brand-slate leading-relaxed">
+          <p className="mt-6 text-lg text-brand-slate leading-relaxed break-keep">
             수학 분야 전공자가 설계한 AI 엔진으로<br className="hidden md:block" />
             4주 걸리던 셋업을 5일로 단축합니다.
           </p>
@@ -40,18 +36,18 @@ export default function Hero() {
             </a>
           </div>
 
-          <div className="mt-12 grid grid-cols-3 gap-6 max-w-md mx-auto">
+          <div className="mt-12 grid grid-cols-3 gap-3 sm:gap-6 max-w-md mx-auto">
             <div>
-              <p className="text-2xl font-extrabold text-brand-ink">4주 → 5일</p>
-              <p className="text-xs text-brand-slate mt-1">셋업 기간 단축</p>
+              <p className="text-lg sm:text-2xl font-extrabold text-brand-ink whitespace-nowrap">4주 → 5일</p>
+              <p className="text-xs text-brand-slate mt-1 break-keep">셋업 기간 단축</p>
             </div>
             <div>
-              <p className="text-2xl font-extrabold text-brand-ink">5단계</p>
-              <p className="text-xs text-brand-slate mt-1">비즈니스 알고리즘</p>
+              <p className="text-lg sm:text-2xl font-extrabold text-brand-ink whitespace-nowrap">5단계</p>
+              <p className="text-xs text-brand-slate mt-1 break-keep">비즈니스 알고리즘</p>
             </div>
             <div>
-              <p className="text-2xl font-extrabold text-brand-ink">AI 자동화</p>
-              <p className="text-xs text-brand-slate mt-1">콘텐츠·연동 전과정</p>
+              <p className="text-lg sm:text-2xl font-extrabold text-brand-ink whitespace-nowrap">AI 자동화</p>
+              <p className="text-xs text-brand-slate mt-1 break-keep">콘텐츠·연동 전과정</p>
             </div>
           </div>
         </div>

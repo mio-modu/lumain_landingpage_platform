@@ -12,7 +12,7 @@ export default function DiagnosisSection() {
       <div className="relative mx-auto max-w-[600px] px-6">
         <div className="text-center mb-10">
           <p className="text-[11px] font-bold text-noir-gold uppercase tracking-[.22em]">Try It Now</p>
-          <h2 className="mt-3 text-3xl md:text-4xl font-black text-noir-ink tracking-tight">
+          <h2 className="mt-3 text-2xl sm:text-3xl md:text-4xl font-black text-noir-ink tracking-tight break-keep">
             내 창업, AI가 먼저 진단해드립니다
           </h2>
         </div>

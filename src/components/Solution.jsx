@@ -37,7 +37,7 @@ export default function Solution() {
       <div className="mx-auto max-w-6xl px-6">
         <div className="text-center max-w-2xl mx-auto">
           <p className="text-sm font-semibold text-brand-blue uppercase tracking-wider">Solution</p>
-          <h2 className="mt-3 text-3xl md:text-4xl font-extrabold text-brand-ink tracking-tight">
+          <h2 className="mt-3 text-3xl md:text-4xl font-extrabold text-brand-ink tracking-tight break-keep">
             Lumain만의 5단계 비즈니스 알고리즘
           </h2>
         </div>
@@ -49,8 +49,8 @@ export default function Solution() {
                 {i + 1}
               </span>
               <p className="mt-4 text-xs font-bold text-brand-mint tracking-wider">{s.day}</p>
-              <h3 className="mt-1.5 text-sm font-bold text-brand-ink leading-snug">{s.title}</h3>
-              <p className="mt-2 text-xs text-brand-slate leading-relaxed">{s.desc}</p>
+              <h3 className="mt-1.5 text-sm font-bold text-brand-ink leading-snug break-keep">{s.title}</h3>
+              <p className="mt-2 text-xs text-brand-slate leading-relaxed break-keep">{s.desc}</p>
             </div>
           ))}
         </div>
