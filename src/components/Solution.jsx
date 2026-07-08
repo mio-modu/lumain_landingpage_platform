@@ -55,36 +55,12 @@ export default function Solution() {
           ))}
         </div>
 
-        <div className="mt-16 rounded-3xl bg-brand-ink/[0.03] p-8 md:p-12">
-          <h3 className="text-center text-2xl md:text-3xl font-extrabold text-brand-ink">
-            4 Weeks to <span className="bg-brand-gradient bg-clip-text text-transparent">5 Days</span>
-          </h3>
-
-          <div className="mt-12 flex flex-col md:flex-row items-center gap-8 md:gap-4">
-            <div className="flex flex-col items-center shrink-0">
-              <div className="w-24 h-40 rounded-xl bg-gradient-to-b from-orange-400 to-red-500 flex items-end justify-center pb-3">
-                <span className="text-white text-xs font-bold leading-tight text-center px-1">
-                  4 Weeks
-                  <br />
-                  (28 Days)
-                </span>
-              </div>
-              <p className="mt-3 text-xs font-bold text-brand-ink">전통적 방식</p>
-            </div>
-
-            <div className="hidden md:flex text-3xl text-brand-mint">→</div>
-
-            <div className="flex-1 grid grid-cols-5 gap-2 md:gap-3 w-full">
-              {steps.map((s) => (
-                <div key={s.day} className="flex flex-col items-center text-center">
-                  <div className="w-14 h-14 md:w-16 md:h-16 rounded-full bg-brand-gradient flex items-center justify-center text-xl md:text-2xl shadow-card">
-                    {s.icon}
-                  </div>
-                  <p className="mt-2 text-[11px] md:text-xs font-bold text-brand-ink">{s.day}</p>
-                </div>
-              ))}
-            </div>
-          </div>
+        <div className="mt-16">
+          <img
+            src={`${import.meta.env.BASE_URL}lumain-5day-process.png`}
+            alt="Lumain 5일 프로세스 타임라인"
+            className="w-full rounded-3xl shadow-card-lg ring-1 ring-black/5"
+          />
         </div>
       </div>
     </section>
