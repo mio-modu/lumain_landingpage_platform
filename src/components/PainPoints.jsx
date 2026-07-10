@@ -43,15 +43,15 @@ export default function PainPoints() {
         </div>
 
         <div className="mt-16">
-          <div className="rounded-3xl bg-white shadow-card-lg p-6 md:p-10">
-            <p className="text-center text-sm font-semibold text-brand-slate mb-6 break-keep">
-              Lumain의 기술적 깊이 — 알고리즘이 문제를 대체합니다
+          <div className="rounded-3xl bg-brand-ink text-white shadow-card-lg p-8 md:p-12">
+            <p className="text-lg md:text-xl italic text-brand-mint leading-relaxed break-keep">
+              “버튼을 누르는 챗봇이 아니라,<br className="hidden md:block" />
+              실전을 겪어본 사람의 경험이 대화로 학습된 AI.”
             </p>
-            <img
-              src={`${import.meta.env.BASE_URL}tech-depth.png`}
-              alt="Lumain 기술 아키텍처"
-              className="w-full rounded-2xl ring-1 ring-black/5"
-            />
+            <p className="mt-5 text-sm text-white/70 leading-relaxed break-keep">
+              정해진 FAQ 트리가 아닌 자유 대화형 AI입니다. 대표가 3일간 겪은 사업자등록·입점·정책자금 신청의
+              모든 시행착오가 그대로 지식베이스로 탑재되어 있습니다.
+            </p>
           </div>
         </div>
       </div>

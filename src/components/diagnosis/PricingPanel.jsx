@@ -1,31 +1,42 @@
 const plans = [
   {
-    name: '무료',
-    price: '0원',
+    tag: 'L1',
+    name: '창업 셋업',
+    price: '무료 ~ 건당 1,000원',
     featured: false,
-    features: ['AI 창업 진단', 'AI 지원금 매칭', '창업 따라가기 (체크리스트)'],
+    live: true,
+    features: ['사업자등록·통신판매업·입점 실시간 질의응답', 'AI 창업 진단 · 창업 따라가기 (체크리스트)', 'AI 지원금 매칭'],
   },
   {
-    name: '단건 결제',
-    price: '5만원 ~ 20만원',
+    tag: 'L2',
+    name: 'CS + 재무/세금',
+    price: '월 9,900원',
     featured: false,
-    features: ['AI 상세페이지 생성기 — 건당 5만원', '창업 셋업 패키지 — 20만원 (사업자등록·소싱·오픈까지 전 과정 동행)'],
+    live: false,
+    features: ['고객 CS 응대 지원', '세금 신고 안내', '정산 관리'],
   },
   {
-    name: '구독',
-    price: '월 9,900원~ (잠정)',
+    tag: 'L3',
+    name: '소싱 확장',
+    price: '월 19,900원',
+    featured: false,
+    live: false,
+    features: ['검증된 공급처 발굴', '소싱 품목 확장 지원'],
+  },
+  {
+    tag: 'L4',
+    name: '실전 판매 시그널',
+    price: '월 49,900원',
+    priceNote: '오픈 초기 29,900원',
     featured: true,
-    badge: '구독형',
-    features: [
-      'Basic — 마진 대시보드 + 트렌드 리포트',
-      'Standard — Basic 전체 + 상세페이지 월 1개',
-      'Pro — Standard 전체 + 상세페이지 월 3개 + 1:1 상담',
-    ],
-    note: '* 구독 등급별 정확한 가격은 베타 운영 결과를 반영해 확정할 예정입니다.',
+    badge: '출시 예정',
+    live: false,
+    features: ['검증된 상위 판매자 데이터 기반 정보', '1:1 멘토링 매칭', '유료 강의·자료 연결'],
   },
 ]
 
 const policies = [
+  'L1(창업 셋업)은 지금 무료로 이용하실 수 있으며, L2~L4는 순차적으로 오픈될 예정입니다',
   '결제 수단: 정식 오픈 시 카드 · 간편결제 지원 예정',
   '환불: 단건 서비스는 작업 착수 전, 구독은 다음 결제주기 전 해지 시 환불 가능 (정식 약관은 오픈 시 공지)',
   '구독 해지는 언제든 가능하며, 해지 시 이용 중인 결제주기까지는 기능이 유지됩니다',
@@ -46,13 +57,14 @@ export default function PricingPanel() {
         필요한 만큼만 확장하세요
       </h1>
       <p className="text-sm text-noir-muted leading-[1.7] mb-6 break-keep">
-        아래 요금제는 정식 서비스 오픈 시 적용될 예정이며, 베타 운영 결과에 따라 조정될 수 있는 잠정안입니다. 지금은 진단·따라가기 기능을 무료로 체험해보실 수 있어요.
+        L1부터 L4까지, 성장 단계에 맞춰 열리는 구독형 구조입니다. 아래 가격은 베타 운영 결과에 따라 조정될 수 있는
+        잠정안이며, 지금은 L1(창업 셋업)의 진단·따라가기 기능을 무료로 체험해보실 수 있어요.
       </p>
 
       <div className="flex flex-col gap-2.5 mb-7">
         {plans.map((p) => (
           <div
-            key={p.name}
+            key={p.tag}
             className={`relative border rounded-md px-5 py-4 ${
               p.featured ? 'border-noir-golddim bg-noir-gold/5' : 'border-noir-line bg-white/[0.015]'
             }`}
@@ -63,8 +75,16 @@ export default function PricingPanel() {
               </span>
             )}
             <div className="flex justify-between items-baseline gap-3 flex-wrap mb-3">
-              <div className="text-[13px] font-bold text-noir-muteddim tracking-wide uppercase">{p.name}</div>
-              <div className="text-[17px] font-bold text-noir-gold break-keep">{p.price}</div>
+              <div className="text-[13px] font-bold text-noir-muteddim tracking-wide uppercase">
+                {p.tag} · {p.name}
+                {p.live && (
+                  <span className="ml-2 normal-case text-[10px] font-bold text-noir-gold">지금 이용 가능</span>
+                )}
+              </div>
+              <div className="text-right">
+                <div className="text-[17px] font-bold text-noir-gold break-keep">{p.price}</div>
+                {p.priceNote && <div className="text-[10.5px] text-noir-muteddim">{p.priceNote}</div>}
+              </div>
             </div>
             <ul className="list-none m-0 p-0 flex flex-col gap-1.5">
               {p.features.map((f) => (
@@ -74,7 +94,6 @@ export default function PricingPanel() {
                 </li>
               ))}
             </ul>
-            {p.note && <p className="text-[11px] text-noir-muteddim mt-3 leading-relaxed break-keep">{p.note}</p>}
           </div>
         ))}
       </div>

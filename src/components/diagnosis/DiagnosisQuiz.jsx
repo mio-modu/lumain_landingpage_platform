@@ -1,15 +1,18 @@
 import { useEffect, useRef, useState } from 'react'
 import Dial, { PulseDial } from './Dial.jsx'
 import ActionAccordion from './ActionAccordion.jsx'
-import { questions, buildDiagnosis } from './diagnosisData.js'
+import { questions, buildDiagnosis, callLiveDiagnosis } from './diagnosisData.js'
 
-const SCREENS = { INTRO: 'intro', QUIZ: 'quiz', LOADING: 'loading', RESULT: 'result' }
+const SCREENS = { INTRO: 'intro', QUIZ: 'quiz', HINT: 'hint', LOADING: 'loading', RESULT: 'result' }
+const HINT_MAX = 300
 
 export default function DiagnosisQuiz({ onCategoryChange }) {
   const [screen, setScreen] = useState(SCREENS.INTRO)
   const [qIndex, setQIndex] = useState(0)
   const [answers, setAnswers] = useState({})
+  const [hint, setHint] = useState('')
   const [result, setResult] = useState(null)
+  const [usedLive, setUsedLive] = useState(false)
   const [dots, setDots] = useState('.')
   const dotsTimer = useRef(null)
 
@@ -38,29 +41,40 @@ export default function DiagnosisQuiz({ onCategoryChange }) {
     setAnswers(nextAnswers)
     const nextIndex = qIndex + 1
     if (nextIndex >= questions.length) {
-      runDiagnosis(nextAnswers)
+      setScreen(SCREENS.HINT)
     } else {
       setQIndex(nextIndex)
     }
   }
 
-  const runDiagnosis = async (finalAnswers) => {
+  const runDiagnosis = async () => {
     setScreen(SCREENS.LOADING)
-    await new Promise((res) => setTimeout(res, 1100))
-    const r = buildDiagnosis(finalAnswers)
+
+    let r
+    let live = false
+    try {
+      r = await callLiveDiagnosis({ ...answers, hint })
+      live = true
+    } catch {
+      r = buildDiagnosis(answers)
+    }
+
     setResult(r)
-    onCategoryChange?.(finalAnswers.category)
+    setUsedLive(live)
+    onCategoryChange?.(answers.category)
     setScreen(SCREENS.RESULT)
   }
 
   const restart = () => {
     setAnswers({})
+    setHint('')
     setQIndex(0)
     setResult(null)
+    setUsedLive(false)
     setScreen(SCREENS.INTRO)
   }
 
-  const dialPct = screen === SCREENS.QUIZ ? qIndex / questions.length : screen === SCREENS.LOADING || screen === SCREENS.RESULT ? 1 : 0
+  const dialPct = screen === SCREENS.QUIZ ? qIndex / questions.length : screen === SCREENS.INTRO ? 0 : 1
   const dialLit = screen === SCREENS.LOADING || screen === SCREENS.RESULT
 
   const q = questions[qIndex]
@@ -77,9 +91,9 @@ export default function DiagnosisQuiz({ onCategoryChange }) {
       {screen === SCREENS.INTRO && (
         <div className="flex flex-col flex-1 animate-[fadeIn_.4s_ease]">
           <h1 className="font-black text-[27px] leading-[1.4] tracking-tight mb-3 max-w-[430px] text-noir-ink break-keep">
-            5일 만에 시작하는
+            5가지 질문으로 진단하는
             <br />
-            온라인 창업, 먼저 진단하세요
+            나의 온라인 창업 준비도
           </h1>
           <p className="text-sm text-noir-muted leading-[1.7] mb-7 max-w-[430px] break-keep">
             5개 질문에 답하면 AI가 창업 유형, 예상 준비기간, 우선 실행 과제를 바로 정리해드립니다. 무료이며, 결과는 저장되지 않습니다.
@@ -135,6 +149,41 @@ export default function DiagnosisQuiz({ onCategoryChange }) {
         </div>
       )}
 
+      {screen === SCREENS.HINT && (
+        <div className="flex flex-col flex-1 animate-[fadeIn_.4s_ease]">
+          <div className="text-xs font-bold text-noir-gold tracking-[.1em] mb-2.5">한 걸음 더</div>
+          <h1 className="font-black text-[21px] leading-[1.4] tracking-tight mb-4 text-noir-ink break-keep">
+            이 진단을 더 정확하게 만들
+            <br />
+            힌트가 있다면 적어주세요 (선택)
+          </h1>
+          <textarea
+            value={hint}
+            onChange={(e) => setHint(e.target.value.slice(0, HINT_MAX))}
+            maxLength={HINT_MAX}
+            placeholder="예: 대구 지역에서 시작하고 싶어요 / 육아 중이라 시간이 불규칙해요 / 이미 인스타 팔로워가 있어요"
+            className="w-full min-h-[110px] resize-y bg-transparent border border-noir-line rounded px-4 py-3.5 text-noir-ink text-sm leading-relaxed placeholder:text-noir-muteddim focus:outline-none focus:border-noir-golddim"
+          />
+          <div className="text-right text-[10.5px] text-noir-muteddim mt-1.5 tabular-nums">
+            {hint.length}/{HINT_MAX}
+          </div>
+          <div className="mt-auto pt-6">
+            <button
+              onClick={runDiagnosis}
+              className="bg-noir-ink text-noir-bg font-bold text-sm tracking-wide px-8 py-4 rounded hover:opacity-85 active:translate-y-px transition"
+            >
+              진단 결과 보기 →
+            </button>
+          </div>
+          <button
+            onClick={runDiagnosis}
+            className="mt-3 text-xs text-noir-muteddim hover:text-noir-muted self-start bg-transparent border-none cursor-pointer"
+          >
+            건너뛰고 바로 보기
+          </button>
+        </div>
+      )}
+
       {screen === SCREENS.LOADING && (
         <div className="flex flex-col items-center justify-center flex-1 text-center gap-5">
           <PulseDial />
@@ -146,7 +195,7 @@ export default function DiagnosisQuiz({ onCategoryChange }) {
 
       {screen === SCREENS.RESULT && result && (
         <div className="flex flex-col flex-1 animate-[fadeIn_.4s_ease]">
-          <ResultBody r={result} />
+          <ResultBody r={result} usedLive={usedLive} />
           <div className="mt-auto pt-2 flex flex-col items-center gap-3">
             <button
               onClick={restart}
@@ -161,12 +210,27 @@ export default function DiagnosisQuiz({ onCategoryChange }) {
   )
 }
 
-function ResultBody({ r }) {
+function ResultBody({ r, usedLive }) {
   return (
     <div>
-      <div className="text-[11px] font-bold text-noir-gold tracking-[.16em] uppercase mb-2.5">진단 결과</div>
+      <div className="flex items-center gap-2 mb-2.5">
+        <div className="text-[11px] font-bold text-noir-gold tracking-[.16em] uppercase">진단 결과 · 1차 유형</div>
+        {usedLive && (
+          <span className="text-[9.5px] font-bold text-noir-gold border border-noir-golddim rounded-[3px] px-1.5 py-0.5">
+            ⚡ Claude 실시간 분석
+          </span>
+        )}
+      </div>
       <h1 className="font-black text-2xl leading-[1.35] tracking-tight mb-3 text-noir-ink break-keep">{r.archetype}</h1>
       <p className="text-[13.5px] text-noir-muted leading-[1.7] mb-6 break-keep">{r.archetype_description}</p>
+
+      {r.substrategy && (
+        <div className="bg-noir-gold/[0.07] border border-noir-golddim rounded-md px-4 py-3.5 mb-6">
+          <div className="text-[10px] font-bold tracking-[.12em] uppercase text-noir-golddim mb-1">2차 세부전략</div>
+          <div className="text-[15px] font-bold text-noir-gold mb-1.5">{r.substrategy}</div>
+          <div className="text-xs text-noir-muted leading-relaxed break-keep">{r.substrategy_description}</div>
+        </div>
+      )}
 
       <div className="flex gap-px mb-6 border border-noir-line rounded overflow-hidden">
         <div className="flex-1 bg-white/[0.02] px-4 py-4 text-center">
@@ -192,7 +256,7 @@ function ResultBody({ r }) {
         ))}
       </ul>
 
-      <SectionTitle>단계별 실행 과제 · 클릭하면 상세 내용이 열려요</SectionTitle>
+      <SectionTitle>단계별 실행 과제 · 클릭하면 상세 내용이 열려요 (3차)</SectionTitle>
       <ActionAccordion actions={r.actions} />
 
       <SectionTitle>주의할 점</SectionTitle>

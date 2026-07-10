@@ -1,33 +1,36 @@
-const steps = [
+const levels = [
   {
-    day: 'Day 1',
-    icon: '🚀',
-    title: 'AI 비즈니스 구조화',
-    desc: '아이템·시장을 분석해 최적의 사업 구조를 설계합니다.',
+    tag: 'L1',
+    name: '창업 셋업',
+    price: '무료 ~ 건당 1,000원',
+    desc: '사업자등록·통신판매업·입점 관련 실시간 질의응답.',
+    status: '지금 이용 가능',
+    live: true,
   },
   {
-    day: 'Day 2',
-    icon: '📝',
-    title: '사업자 등록',
-    desc: '행정 절차를 AI가 안내하며 등록을 진행합니다.',
+    tag: 'L2',
+    name: 'CS + 재무/세금',
+    price: '월 9,900원',
+    desc: '고객 응대, 세금 신고, 정산 관리를 함께 챙겨드립니다.',
+    status: '출시 예정',
+    live: false,
   },
   {
-    day: 'Day 3',
-    icon: '✍️',
-    title: 'AI 콘텐츠 생성',
-    desc: '상세페이지·상품 콘텐츠를 AI가 생성합니다.',
+    tag: 'L3',
+    name: '소싱 확장',
+    price: '월 19,900원',
+    desc: '검증된 공급처 발굴로 판매 품목을 확장합니다.',
+    status: '출시 예정',
+    live: false,
   },
   {
-    day: 'Day 4',
-    icon: '🔗',
-    title: '플랫폼 통합',
-    desc: '주요 쇼핑몰 플랫폼과 자동으로 연동합니다.',
-  },
-  {
-    day: 'Day 5',
-    icon: '🛒',
-    title: '판매 준비 완료',
-    desc: '검수를 마친 스토어가 오픈, 바로 판매를 시작합니다.',
+    tag: 'L4',
+    name: '실전 판매 시그널',
+    price: '월 49,900원',
+    priceNote: '오픈 초기 29,900원',
+    desc: '검증된 상위 판매자의 데이터 기반 실전 정보를 제공합니다.',
+    status: '출시 예정',
+    live: false,
   },
 ]
 
@@ -38,29 +41,46 @@ export default function Solution() {
         <div className="text-center max-w-2xl mx-auto">
           <p className="text-sm font-semibold text-brand-blue uppercase tracking-wider">Solution</p>
           <h2 className="mt-3 text-3xl md:text-4xl font-extrabold text-brand-ink tracking-tight break-keep">
-            Lumain만의 5단계 비즈니스 알고리즘
+            질문 하나로 시작해서,<br className="md:hidden" /> 실전 판매까지 함께 성장하는 4단계
           </h2>
+          <p className="mt-4 text-brand-slate leading-relaxed break-keep">
+            L1부터 무료로 시작해, 필요해지는 순간마다 다음 단계를 열면 됩니다.
+          </p>
         </div>
 
-        <div id="process" className="mt-16 grid grid-cols-2 md:grid-cols-5 gap-4">
-          {steps.map((s, i) => (
-            <div key={s.day} className="relative rounded-2xl border border-brand-ink/10 p-6">
-              <span className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-gradient text-white text-xs font-bold">
-                {i + 1}
-              </span>
-              <p className="mt-4 text-xs font-bold text-brand-mint tracking-wider">{s.day}</p>
-              <h3 className="mt-1.5 text-sm font-bold text-brand-ink leading-snug break-keep">{s.title}</h3>
-              <p className="mt-2 text-xs text-brand-slate leading-relaxed break-keep">{s.desc}</p>
+        <div id="process" className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4">
+          {levels.map((lv, i) => (
+            <div
+              key={lv.tag}
+              className={`relative rounded-2xl border p-6 ${
+                lv.live ? 'border-brand-blue/30 bg-brand-blue/[0.03]' : 'border-brand-ink/10'
+              }`}
+            >
+              <div className="flex items-center justify-between">
+                <span className="inline-flex items-center justify-center w-9 h-9 rounded-full bg-brand-gradient text-white text-xs font-bold">
+                  {lv.tag}
+                </span>
+                <span
+                  className={`text-[10px] font-bold px-2 py-1 rounded-full whitespace-nowrap ${
+                    lv.live ? 'bg-brand-mint/15 text-brand-mint' : 'bg-brand-ink/5 text-brand-slate'
+                  }`}
+                >
+                  {lv.status}
+                </span>
+              </div>
+              <h3 className="mt-4 text-sm font-bold text-brand-ink leading-snug break-keep">{lv.name}</h3>
+              <p className="mt-1.5 text-xs font-bold text-brand-blue2 break-keep">
+                {lv.price}
+                {lv.priceNote && <span className="block text-[10px] font-medium text-brand-slate mt-0.5">{lv.priceNote}</span>}
+              </p>
+              <p className="mt-2 text-xs text-brand-slate leading-relaxed break-keep">{lv.desc}</p>
+              {i < levels.length - 1 && (
+                <span className="hidden md:block absolute right-[-19px] top-1/2 -translate-y-1/2 text-base text-brand-ink/20 font-bold">
+                  →
+                </span>
+              )}
             </div>
           ))}
-        </div>
-
-        <div className="mt-16">
-          <img
-            src={`${import.meta.env.BASE_URL}lumain-5day-process.png`}
-            alt="Lumain 5일 프로세스 타임라인"
-            className="w-full rounded-3xl shadow-card-lg ring-1 ring-black/5"
-          />
         </div>
       </div>
     </section>

@@ -205,33 +205,118 @@ function costBreakdownFor(budget) {
   return table[budget] || table['100 ~ 500만원']
 }
 
-export function buildDiagnosis(a) {
-  let archetype, archetypeDesc
-  if (a.goal === '소소한 부수입') {
-    if (a.time === '주말에만 가능해요') {
-      archetype = '주말 사이드 셀러형'
-      archetypeDesc = `${a.category} 카테고리로 주말 시간만 활용해 부담 없이 시작하기 좋은 유형입니다. 처음부터 무리하지 않고, 재고와 운영을 최소화한 위탁판매 구조로 시작하는 것을 추천합니다.`
-    } else {
-      archetype = '가벼운 부업 실험형'
-      archetypeDesc = `${a.category} 분야에서 평일 자투리 시간까지 활용할 수 있는 유형입니다. 초기 한 달은 판매보다 운영 루틴을 만드는 데 집중하면 이후 확장이 훨씬 수월해집니다.`
-    }
-  } else if (a.goal === '본업 전환을 위한 시작') {
-    if (a.time === '거의 풀타임으로 가능해요' || a.time === '주 20시간 이상 투입 가능') {
-      archetype = '풀타임 전환 준비형'
-      archetypeDesc = `${a.category} 카테고리로 본업 전환을 목표로 하는 유형입니다. 투입 가능한 시간이 충분한 만큼, 초기부터 매출 구조와 마진 관리를 함께 세팅하는 것이 중요합니다.`
-    } else {
-      archetype = '단계적 전환 준비형'
-      archetypeDesc = `${a.category} 카테고리에서 본업과 병행하며 서서히 전환을 준비하는 유형입니다. 조급하게 확장하기보다 소수 상품으로 판매 구조를 먼저 검증하는 것이 우선입니다.`
-    }
-  } else {
-    archetype = '카테고리 확장형'
-    archetypeDesc = `기존 사업 경험을 바탕으로 ${a.category} 영역으로 다각화를 시도하는 유형입니다. 새 카테고리라도 이미 갖춘 운영 역량을 그대로 활용할 수 있습니다.`
-  }
+// ============================================================
+// AI 창업 진단 알고리즘 v2 — 가중치 기반 다층 스코어링
+//
+// STEP 1. 5개 응답 → 5개 잠재 차원(속도지향/안정지향/자본여력/전문성/확장의지)으로 환산
+// STEP 2. 실행강도지수(driveIndex) 산출 → 1차 유형(4단계) 결정
+// STEP 3. 전문성×자본여력 매트릭스 → 2차 세부전략(4분면) 결정
+// STEP 4. 카테고리 리스크지수 반영 → 실행과제 우선순위·경고 조정
+// ============================================================
 
-  let prepBase = a.experience === '전혀 없어요, 처음이에요' ? 7 : a.experience === '사업자등록만 해본 적 있어요' ? 6 : 5
-  if (a.time === '거의 풀타임으로 가능해요') prepBase -= 1
-  if (a.time === '주말에만 가능해요') prepBase += 2
-  const prepDays = `${Math.max(3, prepBase - 1)}~${prepBase + 2}일`
+const SCORE_TABLE = {
+  time: {
+    '주말에만 가능해요': { speed: 0, stability: 2 },
+    '평일 포함 주 10시간 이내': { speed: 1, stability: 1 },
+    '주 20시간 이상 투입 가능': { speed: 2, stability: 0 },
+    '거의 풀타임으로 가능해요': { speed: 3, stability: 0 },
+  },
+  budget: {
+    '100만원 이하': { capital: 0 },
+    '100 ~ 500만원': { capital: 1 },
+    '500 ~ 1,000만원': { capital: 2 },
+    '1,000만원 이상': { capital: 3 },
+  },
+  experience: {
+    '전혀 없어요, 처음이에요': { expertise: 0 },
+    '사업자등록만 해본 적 있어요': { expertise: 1 },
+    '스마트스토어 등 온라인 판매 경험 있어요': { expertise: 2 },
+    '이미 사업을 운영 중이에요': { expertise: 3 },
+  },
+  goal: {
+    '소소한 부수입': { ambition: 0, stability: 1 },
+    '본업 전환을 위한 시작': { ambition: 2 },
+    '기존 사업의 확장 · 다각화': { ambition: 3, expertise: 1 },
+  },
+  category: {
+    '뷰티 · 화장품': { riskNeed: 2 },
+    건강기능식품: { riskNeed: 3 },
+    '신선식품 · 농산물': { riskNeed: 2 },
+    '패션 · 잡화': { riskNeed: 1 },
+    '아직 품목을 못 정했어요': { riskNeed: 1 },
+  },
+}
+
+function computeScores(a) {
+  const s = { speed: 0, stability: 0, capital: 0, expertise: 0, ambition: 0, riskNeed: 0 }
+  ;[
+    ['time', a.time],
+    ['budget', a.budget],
+    ['experience', a.experience],
+    ['goal', a.goal],
+    ['category', a.category],
+  ].forEach(([dim, answer]) => {
+    const add = (SCORE_TABLE[dim] && SCORE_TABLE[dim][answer]) || {}
+    Object.keys(add).forEach((k) => {
+      s[k] += add[k]
+    })
+  })
+  return s
+}
+
+// 1차 유형: 실행강도지수(driveIndex) 기반 4단계
+const TIER1_TABLE = [
+  { max: 1.5, name: '천천히 단단하게형', tone: '무리하지 않는 속도로, 검증하며 나아가는 유형입니다.' },
+  { max: 4.0, name: '균형 잡힌 실험형', tone: '속도와 안정 사이에서 균형을 잡으며 단계적으로 확장하는 유형입니다.' },
+  { max: 7.0, name: '속도감 있는 실행형', tone: '투입 가능한 시간과 의지가 뚜렷해, 빠르게 실행하며 배우는 유형입니다.' },
+  { max: Infinity, name: '올인 승부형', tone: '시간·자본·의지가 모두 강하게 정렬된, 전력 질주형 유형입니다.' },
+]
+
+function tier1For(driveIndex) {
+  return TIER1_TABLE.find((t) => driveIndex < t.max)
+}
+
+// 2차 세부전략: 전문성 × 자본여력 매트릭스 (4분면)
+function tier2For(sc) {
+  const lowExp = sc.expertise <= 1
+  const lowCap = sc.capital <= 1
+  if (lowExp && lowCap) {
+    return {
+      name: '학습우선 전략',
+      desc: '아직 경험도 자본도 크지 않은 단계입니다. 처음부터 크게 벌이기보다, 가장 작은 단위로 한 번 팔아보고 배우는 데 집중하세요.',
+    }
+  }
+  if (lowExp && !lowCap) {
+    return {
+      name: '위탁·아웃소싱 활용 전략',
+      desc: '경험은 부족하지만 초기 자본에 여유가 있습니다. 상세페이지·소싱처럼 시간이 많이 드는 영역은 외부 도구나 전문가 힘을 빌려 격차를 메우는 게 효율적입니다.',
+    }
+  }
+  if (!lowExp && lowCap) {
+    return {
+      name: '역량 레버리지 전략',
+      desc: '이미 쌓아둔 경험이 있는데 초기 자본은 크지 않습니다. 새로 배우는 데 시간을 쓰기보다, 이미 아는 채널·노하우를 그대로 재활용해 비용을 최소화하세요.',
+    }
+  }
+  return {
+    name: '정면 승부 전략',
+    desc: '경험과 자본을 모두 갖춘 상태입니다. 소극적으로 접근하기보다, 처음부터 제대로 된 구조(상세페이지·소싱 계약·정산 체계)를 갖추고 시작해도 좋습니다.',
+  }
+}
+
+export function buildDiagnosis(a) {
+  const sc = computeScores(a)
+
+  const driveIndex = sc.speed * 1.5 + sc.ambition * 1.3 + sc.capital * 0.7 - sc.stability * 1.0
+  const tier1 = tier1For(driveIndex)
+  const archetype = tier1.name
+  const archetypeDesc = `${a.category} 카테고리 기준 — ${tier1.tone}`
+
+  const tier2 = tier2For(sc)
+
+  let prepBase = 9 - sc.speed * 1.1 - sc.expertise * 0.6
+  prepBase = Math.max(3, Math.round(prepBase))
+  const prepDays = `${prepBase}~${prepBase + 3}일`
 
   const costMap = {
     '100만원 이하': '30~90만원',
@@ -241,26 +326,38 @@ export function buildDiagnosis(a) {
   }
   const initialCost = costMap[a.budget] || '100~300만원'
 
-  const actions = stagesFor(a.category)
+  const categoryStep = CATEGORY_STEP[a.category] || CATEGORY_STEP[CATEGORY_LIST[0]]
+  const actions = [UNIVERSAL_STEP_1, categoryStep, UNIVERSAL_STEP_3, UNIVERSAL_STEP_4, UNIVERSAL_STEP_5]
+  if (sc.riskNeed >= 3) {
+    actions[1] = { ...categoryStep, title: '⚠ ' + categoryStep.title + ' (최우선)' }
+  }
 
   const watchOuts = []
-  if (a.experience === '전혀 없어요, 처음이에요') {
+  if (sc.expertise === 0) {
     watchOuts.push('사업자등록·통신판매업 신고 절차를 놓치면 이후 정산에 지장이 생길 수 있어요')
-    watchOuts.push('처음부터 다품종으로 시작하면 재고·마진 관리가 급격히 복잡해져요')
-  } else {
-    watchOuts.push('플랫폼 수수료가 변동되면 마진이 달라지니 정기적으로 재계산하는 습관을 들이세요')
-    watchOuts.push('판매 채널을 늘릴수록 재고·정산 관리 부담이 커지니 자동화 도구를 함께 검토하세요')
   }
-  if (a.budget === '100만원 이하') {
+  if (sc.expertise <= 1 && a.category !== '아직 품목을 못 정했어요') {
+    watchOuts.push('처음부터 다품종으로 시작하면 재고·마진 관리가 급격히 복잡해져요')
+  }
+  if (sc.expertise >= 2) {
+    watchOuts.push('플랫폼 수수료가 변동되면 마진이 달라지니 정기적으로 재계산하는 습관을 들이세요')
+  }
+  if (sc.capital === 0) {
     watchOuts.push('초기 재고를 과도하게 확보하면 자금이 묶이니, 다품종보다 소품종 소량으로 시작하세요')
-  } else if (a.budget === '1,000만원 이상') {
+  } else if (sc.capital === 3) {
     watchOuts.push('초기 자본이 넉넉해도 검증 전 대량 발주는 피하고, 소량 테스트 후 순차적으로 확대하세요')
+  }
+  if (sc.riskNeed >= 3) {
+    watchOuts.push('규제·인증 검토를 건너뛰고 판매부터 시작하면 이후 판매 중단 리스크가 커요 — 반드시 1단계에서 확인하세요')
+  }
+  if (watchOuts.length === 0) {
+    watchOuts.push('현재 조합에서는 큰 리스크 신호가 없어요 — 다만 실행 속도 자체를 늦추지 않는 것이 관건입니다')
   }
 
   let recommendedFeatures
-  if (a.goal === '기존 사업의 확장 · 다각화') {
+  if (sc.ambition >= 3) {
     recommendedFeatures = ['AI 정산·마진 대시보드', 'AI 트렌드·수요 리포트']
-  } else if (a.experience === '전혀 없어요, 처음이에요') {
+  } else if (sc.expertise === 0) {
     recommendedFeatures = ['AI 지원금 매칭', 'AI 상세페이지 생성기']
   } else {
     recommendedFeatures = ['AI 상세페이지 생성기', 'AI 정산·마진 대시보드']
@@ -269,11 +366,35 @@ export function buildDiagnosis(a) {
   return {
     archetype,
     archetype_description: archetypeDesc,
+    substrategy: tier2.name,
+    substrategy_description: tier2.desc,
     prep_days: prepDays,
     initial_cost_range: initialCost,
     cost_breakdown: costBreakdownFor(a.budget),
     actions,
     watch_outs: watchOuts,
     recommended_features: recommendedFeatures,
+  }
+}
+
+export const DIAGNOSE_API_ENDPOINT = 'https://lumain-diagnosis-api.vercel.app/api/diagnose'
+
+export async function callLiveDiagnosis(payload) {
+  const controller = new AbortController()
+  const timeout = setTimeout(() => controller.abort(), 12000)
+  try {
+    const response = await fetch(DIAGNOSE_API_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      signal: controller.signal,
+    })
+    clearTimeout(timeout)
+    if (!response.ok) throw new Error(`API 응답 오류 (status ${response.status})`)
+    const data = await response.json()
+    if (!data.archetype || !data.actions) throw new Error('API 응답 형식이 올바르지 않습니다.')
+    return data
+  } finally {
+    clearTimeout(timeout)
   }
 }
